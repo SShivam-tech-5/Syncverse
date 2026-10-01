@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import './responsive.css';
+
+:root {
+  --primary: #7C3AED;
+  --primary-light: #9F67FF;
+  --primary-dark: #5B21B6;
+  --secondary: #3B82F6;
+  --accent: #06B6D4;
+  --bg-base: #0A0A14;
+  --bg-surface: #12121F;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --text-primary: #F0F0FF;
+  --text-secondary: #8B8BA8;
+  --text-muted: #555570;
+  --danger: #EF4444;
+  --success: #10B981;
+  --gradient: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(59,130,246,0.15) 100%);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg: 0 24px 64px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 40px rgba(124,58,237,0.25);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* Selection */
+::selection { background: rgba(124,58,237,0.3); color: var(--text-primary); }
+
+a { text-decoration: none; color: inherit; }
+
+/* MUI Overrides */
+.MuiButton-root { border-radius: var(--radius-sm) !important; font-family: 'Inter' !important; }
+.MuiTextField-root .MuiOutlinedInput-root { border-radius: var(--radius-sm) !important; }

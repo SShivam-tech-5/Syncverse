@@ -1,0 +1,279 @@
+/* ════════════════════════════════════════════════════════════════
+   SYNCVERSE — RESPONSIVE STYLESHEET
+   Breakpoints:
+     xs  : max-width  480px  (small phones)
+     sm  : max-width  768px  (phones / large phones)
+     md  : max-width 1024px  (tablets)
+   ════════════════════════════════════════════════════════════════ */
+
+/* ─── Shared Navbar ─────────────────────────────────────────────── */
+.navCenterLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Landing Page ──────────────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .landingPageContainer nav { padding: 1rem 1.8rem; }
+
+  .landingMainContainer {
+    padding: 4rem 2.5rem;
+    gap: 2.5rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 2.8rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Nav */
+  .landingPageContainer nav {
+    padding: 1rem 1.2rem;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .navlist {
+    gap: 0.25rem !important;
+    flex-wrap: wrap;
+  }
+
+  .navlist p {
+    padding: 0.4rem 0.7rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Hero */
+  .landingMainContainer {
+    flex-direction: column !important;
+    padding: 2.5rem 1.2rem 3rem !important;
+    text-align: center;
+    gap: 2.5rem !important;
+  }
+
+  .landingMainContainer > div:nth-child(1) {
+    max-width: 100% !important;
+  }
+
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 2.2rem !important;
+    letter-spacing: -1.2px !important;
+  }
+
+  .landingMainContainer > div:nth-child(1) p {
+    font-size: 1rem !important;
+    margin-bottom: 1.8rem !important;
+  }
+
+  .landingBadge { justify-content: center; }
+
+  .landingCTA { justify-content: center !important; }
+
+  .landingMainContainer > div:nth-child(1) div[role='button'] {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .landingStats {
+    justify-content: center;
+    gap: 1.5rem !important;
+  }
+
+  /* Hero image — shrink */
+  .heroImageWrapper img {
+    max-width: 280px !important;
+    width: 80vw !important;
+  }
+}
+
+/* Small phone */
+@media (max-width: 480px) {
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 1.9rem !important;
+  }
+
+  .navlist div[role='button'] {
+    padding: 0.4rem 0.9rem !important;
+    font-size: 0.82rem !important;
+  }
+}
+
+/* ─── Home Page ─────────────────────────────────────────────────── */
+.homeHero          { display: flex; }
+.homeLeft          { flex: 0 0 auto; max-width: 540px; }
+.homeRight         { flex: 1; }
+.homeFeatureGrid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.2rem; }
+.homeCTABanner     { display: flex; align-items: center; justify-content: space-between; }
+
+@media (max-width: 1024px) {
+  .homeHero {
+    flex-direction: column !important;
+    padding: 3rem 4vw !important;
+    gap: 3rem !important;
+    min-height: auto !important;
+  }
+
+  .homeLeft  { max-width: 100% !important; }
+  .homeRight { display: none !important; }   /* hide decorative visual on tablet */
+
+  .homeFeatureGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .homeHero {
+    padding: 2rem 1.2rem !important;
+    gap: 2rem !important;
+  }
+
+  .homeHeroH1 {
+    font-size: 2.2rem !important;
+    letter-spacing: -1.2px !important;
+  }
+
+  .homeActionCard { padding: 1.2rem !important; }
+
+  .homeJoinRow { flex-direction: column !important; }
+  .homeJoinRow input { width: 100% !important; }
+  .homeJoinRow button { width: 100% !important; justify-content: center; }
+
+  .homeFeatureGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .homeCTABanner {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 1.5rem !important;
+  }
+
+  .homeFeatureSection { padding: 3rem 1.2rem !important; }
+  .homeCTASection     { padding: 2.5rem 1.2rem !important; }
+}
+
+@media (max-width: 480px) {
+  .homeHeroH1 { font-size: 1.9rem !important; }
+}
+
+/* ─── Auth Page ─────────────────────────────────────────────────── */
+.authContainer    { display: flex; min-height: 100vh; }
+.authLeftPanel    { flex: 1; }
+.authRightPanel   { flex: 1; }
+
+@media (max-width: 768px) {
+  .authContainer { flex-direction: column; }
+
+  .authLeftPanel {
+    display: none !important;    /* hide branding panel on mobile */
+  }
+
+  .authRightPanel {
+    flex: 1 !important;
+    padding: 2rem 1.2rem !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .authFormInner { max-width: 100% !important; }
+}
+
+/* ─── History Page ──────────────────────────────────────────────── */
+.historyGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.2rem; }
+
+@media (max-width: 768px) {
+  .historyContent { padding: 2rem 1.2rem !important; }
+
+  .historyGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── Shared Navbar Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .navCenterLinks { display: none !important; }
+
+  .navbarHeader {
+    padding: 0 1.2rem !important;
+    height: 56px !important;
+  }
+
+  .navbarRight {
+    gap: 5px !important;
+  }
+
+  .navBtnLabel { display: none !important; }   /* icon-only on mobile */
+
+  .navBtnIcon  { display: flex !important; }
+}
+
+/* ─── VideoMeet Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Lobby card */
+  .lobbyCard { padding: 1.4rem 1.2rem !important; }
+  .lobbyContainer { padding: 1rem !important; }
+
+  /* In-room chat — becomes a bottom sheet overlay */
+  .chatRoom {
+    top: auto !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 82px !important;
+    width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    height: 55vh !important;
+  }
+
+  /* PiP local video — smaller on mobile */
+  .meetUserVideo {
+    width: 110px !important;
+    bottom: 90px !important;
+    right: 10px !important;
+  }
+
+  /* Controls — tighter spacing */
+  .buttonContainers {
+    gap: 7px !important;
+    padding: 0 0.8rem !important;
+  }
+
+  .controlBtn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+  }
+
+  .controlBtn.danger {
+    width: 54px !important;
+    height: 44px !important;
+  }
+
+  /* Conference videos — stack vertically */
+  .conferenceView video {
+    min-width: unset !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Room info badge — compact */
+  .roomInfoBadge {
+    top: 8px !important;
+    left: 8px !important;
+    padding: 5px 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .controlBtn { width: 40px !important; height: 40px !important; }
+  .controlBtn.danger { width: 48px !important; }
+  .buttonContainers { gap: 5px !important; }
+  .meetUserVideo { width: 90px !important; }
+}
