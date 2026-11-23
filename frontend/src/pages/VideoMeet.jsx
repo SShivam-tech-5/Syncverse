@@ -11,7 +11,6 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import ChatIcon from '@mui/icons-material/Chat';
 import SendIcon from '@mui/icons-material/Send';
-import VideoCallIcon from '@mui/icons-material/VideoCall';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -47,6 +46,153 @@ const peerConfigConnections = {
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
 
+/* ─── Local Video PiP ────────────────────────────────────────────────
+   Small floating self-view in the bottom-right corner.
+   Does NOT occupy a grid slot — remote videos fill the whole grid.
+─────────────────────────────────────────────────────────────────── */
+function LocalVideoPiP({ localVideoref, username, video, audio }) {
+    // Callback ref: sets srcObject the instant the DOM node is created,
+    // avoiding the lobby→room element-swap race condition.
+    const handleVideoRef = React.useCallback((el) => {
+        if (el) {
+            localVideoref.current = el;
+            if (window.localStream) el.srcObject = window.localStream;
+        }
+    }, []);
+
+    return (
+        <div style={{
+            position: 'absolute',
+            bottom: 96,          /* sit just above the control bar */
+            right: 16,
+            width: 160,
+            aspectRatio: '4/3',
+            borderRadius: 14,
+            overflow: 'hidden',
+            border: '2px solid rgba(124,58,237,0.6)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)',
+            background: '#0D0D20',
+            zIndex: 30,
+            cursor: 'default',
+        }}>
+            {/* Your mirrored video */}
+            <video
+                ref={handleVideoRef}
+                autoPlay
+                muted          /* must be muted — your own audio would echo */
+                playsInline
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transform: 'scaleX(-1)',
+                    display: video ? 'block' : 'none',
+                }}
+            />
+
+            {/* Camera-off avatar */}
+            {!video && (
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    gap: 6, background: '#0D0D20',
+                }}>
+                    <div style={{
+                        width: 40, height: 40, borderRadius: '50%',
+                        background: 'linear-gradient(135deg,rgba(124,58,237,0.35),rgba(59,130,246,0.2))',
+                        border: '2px solid rgba(124,58,237,0.5)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <PersonIcon style={{ color: '#7C3AED', fontSize: 22 }} />
+                    </div>
+                </div>
+            )}
+
+            {/* "You" label — bottom */}
+            <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                background: 'linear-gradient(to top,rgba(0,0,0,0.75),transparent)',
+                padding: '10px 6px 5px',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            }}>
+                <span style={{
+                    color: '#F0F0FF', fontSize: '0.65rem', fontWeight: 700,
+                    fontFamily: 'Inter', background: 'rgba(124,58,237,0.75)',
+                    borderRadius: 5, padding: '2px 6px',
+                }}>
+                    You
+                </span>
+                {/* mic muted indicator */}
+                {!audio && (
+                    <div style={{
+                        background: 'rgba(239,68,68,0.85)',
+                        borderRadius: 5, padding: '2px 5px',
+                        display: 'flex', alignItems: 'center',
+                    }}>
+                        <MicOffIcon style={{ fontSize: 11, color: 'white' }} />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+/* ─── Remote Video Tile ──────────────────────────────────────────── */
+function RemoteVideoTile({ socketId, stream, index }) {
+    const videoEl = useRef(null);
+
+    useEffect(() => {
+        if (videoEl.current && stream) {
+            videoEl.current.srcObject = stream;
+        }
+    }, [stream]);
+
+    return (
+        <div style={{
+            position: 'relative',
+            borderRadius: 16,
+            overflow: 'hidden',
+            background: '#0D0D20',
+            border: '1px solid rgba(255,255,255,0.06)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+            aspectRatio: '16/9',
+            flex: '1 1 calc(50% - 12px)',
+            minWidth: 220,
+            maxWidth: 600,
+        }}>
+            <video
+                ref={videoEl}
+                autoPlay
+                playsInline
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                }}
+            />
+
+            {/* Participant number label */}
+            <div style={{
+                position: 'absolute', bottom: 10, left: 10,
+                display: 'flex', alignItems: 'center', gap: 6,
+                background: 'rgba(0,0,0,0.65)',
+                backdropFilter: 'blur(8px)',
+                borderRadius: 8, padding: '4px 10px',
+            }}>
+                <span style={{
+                    width: 7, height: 7, borderRadius: '50%',
+                    background: '#10B981', boxShadow: '0 0 6px #10B981',
+                    flexShrink: 0,
+                }} />
+                <span style={{ color: '#F0F0FF', fontSize: '0.78rem', fontWeight: 700, fontFamily: 'Inter' }}>
+                    Participant {index + 1}
+                </span>
+            </div>
+        </div>
+    );
+}
+
 export default function VideoMeetComponent() {
     const navigate = useNavigate();
     var socketRef = useRef();
@@ -55,8 +201,8 @@ export default function VideoMeetComponent() {
 
     let [videoAvailable, setVideoAvailable] = useState(true);
     let [audioAvailable, setAudioAvailable] = useState(true);
-    let [video, setVideo] = useState([]);
-    let [audio, setAudio] = useState();
+    let [video, setVideo] = useState(true);
+    let [audio, setAudio] = useState(true);
     let [screen, setScreen] = useState();
     let [showModal, setModal] = useState(true);
     let [screenAvailable, setScreenAvailable] = useState();
@@ -124,7 +270,10 @@ export default function VideoMeetComponent() {
         catch (e) { console.log(e); }
 
         window.localStream = stream;
-        localVideoref.current.srcObject = stream;
+        // Always re-assign — the ref may point to a different DOM element now
+        if (localVideoref.current) {
+            localVideoref.current.srcObject = stream;
+        }
 
         for (let id in connections) {
             if (id === socketIdRef.current) continue;
@@ -146,7 +295,7 @@ export default function VideoMeetComponent() {
 
             let blackSilence = (...args) => new MediaStream([black(...args), silence()]);
             window.localStream = blackSilence();
-            localVideoref.current.srcObject = window.localStream;
+            if (localVideoref.current) localVideoref.current.srcObject = window.localStream;
 
             for (let id in connections) {
                 connections[id].addStream(window.localStream);
@@ -177,7 +326,7 @@ export default function VideoMeetComponent() {
         catch (e) { console.log(e); }
 
         window.localStream = stream;
-        localVideoref.current.srcObject = stream;
+        if (localVideoref.current) localVideoref.current.srcObject = stream;
 
         for (let id in connections) {
             if (id === socketIdRef.current) continue;
@@ -198,7 +347,7 @@ export default function VideoMeetComponent() {
 
             let blackSilence = (...args) => new MediaStream([black(...args), silence()]);
             window.localStream = blackSilence();
-            localVideoref.current.srcObject = window.localStream;
+            if (localVideoref.current) localVideoref.current.srcObject = window.localStream;
             getUserMedia();
         }));
     };
@@ -313,9 +462,7 @@ export default function VideoMeetComponent() {
             let tracks = localVideoref.current.srcObject.getTracks();
             tracks.forEach((track) => track.stop());
         } catch (e) {}
-        // Stop socket connection
         if (socketRef.current) socketRef.current.disconnect();
-        // Go back to home — stays logged in
         navigate('/home');
     };
 
@@ -341,17 +488,30 @@ export default function VideoMeetComponent() {
 
     const meetingCode = window.location.pathname.replace('/', '');
 
+    /* ── grid columns based on remote participants only ── */
+    const remoteCount = videos.length;
+    const gridCols = remoteCount === 0 ? '1fr'
+        : remoteCount === 1 ? 'repeat(2, 1fr)'
+        : remoteCount <= 3  ? 'repeat(2, 1fr)'
+        : 'repeat(3, 1fr)';
+
     return (
         <ThemeProvider theme={darkTheme}>
             {askForUsername ? (
-                /* ── Lobby ── */
+                /* ══ LOBBY ══ */
                 <div className={styles.lobbyContainer}>
                     <div className={styles.lobbyCard}>
                         {/* Logo */}
                         <div className={styles.lobbyLogo}>
-                            <div className={styles.lobbyLogoIcon}>
-                                <VideoCallIcon style={{ color: 'white', fontSize: 24 }} />
-                            </div>
+                            <img
+                                src="/logo.png"
+                                alt="SyncVerse"
+                                style={{
+                                    width: 42, height: 42, borderRadius: 11,
+                                    objectFit: 'cover',
+                                    boxShadow: '0 4px 16px rgba(124,58,237,0.5)',
+                                }}
+                            />
                             <span className={styles.lobbyTitle}>SyncVerse</span>
                         </div>
 
@@ -418,41 +578,77 @@ export default function VideoMeetComponent() {
                     </div>
                 </div>
             ) : (
-                /* ── Meeting Room ── */
+                /* ══ MEETING ROOM ══ */
                 <div className={styles.meetVideoContainer}>
+
                     {/* Room info badge */}
                     <div className={styles.roomInfoBadge}>
-                        <VideoCallIcon style={{ color: '#7C3AED', fontSize: 18 }} />
+                        <img src="/logo.png" alt="SyncVerse" style={{ width: 18, height: 18, borderRadius: 4, objectFit: 'cover' }} />
                         <span className={styles.logoText}>SyncVerse</span>
                         <span className={styles.roomCode}>{meetingCode}</span>
                     </div>
 
-                    {/* Conference videos */}
-                    <div className={styles.conferenceView}>
-                        {videos.map((v) => (
-                            <div key={v.socketId} style={{ position: 'relative' }}>
-                                <video
-                                    data-socket={v.socketId}
-                                    ref={(ref) => { if (ref && v.stream) ref.srcObject = v.stream; }}
-                                    autoPlay
-                                />
-                            </div>
+                    {/* ── CONFERENCE GRID — remote participants only ── */}
+                    <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 12,
+                        padding: showModal ? '56px 344px 90px 16px' : '56px 16px 90px 16px',
+                        overflowY: 'auto',
+                        alignContent: 'center',
+                        justifyContent: 'center',
+                        transition: 'padding 0.3s ease',
+                    }}>
+                        {/* REMOTE PARTICIPANT TILES — fill the whole space */}
+                        {videos.map((v, i) => (
+                            <RemoteVideoTile
+                                key={v.socketId}
+                                socketId={v.socketId}
+                                stream={v.stream}
+                                index={i}
+                            />
                         ))}
+
+                        {/* Waiting message when alone */}
                         {videos.length === 0 && (
                             <div style={{
                                 display: 'flex', flexDirection: 'column',
-                                alignItems: 'center', gap: 12, color: '#333355',
+                                alignItems: 'center', justifyContent: 'center',
+                                gap: 14, padding: '3rem 2rem',
+                                borderRadius: 20,
+                                background: 'rgba(255,255,255,0.02)',
+                                border: '1px dashed rgba(255,255,255,0.08)',
+                                width: '100%', maxWidth: 420,
                             }}>
-                                <PersonIcon style={{ fontSize: 72, color: '#1A1A30' }} />
-                                <p style={{ fontFamily: 'Inter', fontSize: '0.9rem', color: '#444460' }}>
-                                    Waiting for others to join...
-                                </p>
+                                <div style={{
+                                    width: 64, height: 64, borderRadius: '50%',
+                                    background: 'rgba(124,58,237,0.1)',
+                                    border: '1px solid rgba(124,58,237,0.2)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                }}>
+                                    <PersonIcon style={{ fontSize: 34, color: '#333355' }} />
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <p style={{ fontFamily: 'Inter', fontSize: '1rem', color: '#555570', fontWeight: 600, marginBottom: 6 }}>
+                                        You're the only one here
+                                    </p>
+                                    <p style={{ fontFamily: 'Inter', fontSize: '0.82rem', color: '#333350' }}>
+                                        Share the code <span style={{ color: '#7C3AED', fontWeight: 700, fontFamily: 'monospace' }}>{meetingCode}</span> to invite others
+                                    </p>
+                                </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Local video PiP */}
-                    <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted />
+                    {/* ── YOUR OWN VIDEO — small PiP in bottom-right corner ── */}
+                    <LocalVideoPiP
+                        localVideoref={localVideoref}
+                        username={username}
+                        video={video}
+                        audio={audio}
+                    />
 
                     {/* Chat Panel */}
                     {showModal && (

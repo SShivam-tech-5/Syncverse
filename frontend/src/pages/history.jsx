@@ -43,7 +43,7 @@ export default function History() {
             <Navbar showActions />
 
             {/* ── Page title bar ── */}
-            <div style={{
+            <div className="historyTitleBar" style={{
                 padding: '1.2rem 2.5rem',
                 borderBottom: '1px solid rgba(255,255,255,0.05)',
                 display: 'flex', alignItems: 'center', gap: 10,

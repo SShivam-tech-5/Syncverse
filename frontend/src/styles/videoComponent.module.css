@@ -137,28 +137,10 @@
     box-shadow: 0 8px 32px rgba(124,58,237,0.2);
 }
 
-/* ─── Local Video (PiP) ────────────────────────────────────────── */
+/* ─── Local Video (PiP) — DEPRECATED: local video now in grid ── */
+/* Kept as empty rule to avoid CSS module errors */
 .meetUserVideo {
-    position: absolute;
-    bottom: 96px;
-    right: 20px;
-    width: 200px;
-    height: auto;
-    aspect-ratio: 4/3;
-    border-radius: 14px;
-    border: 2px solid rgba(124,58,237,0.5);
-    object-fit: cover;
-    z-index: 20;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
-    transform: scaleX(-1);
-    background: #0D0D20;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.meetUserVideo:hover {
-    border-color: rgba(124,58,237,0.8);
-    box-shadow: 0 12px 40px rgba(124,58,237,0.3);
+    display: none;
 }
 
 /* ─── Control Bar ──────────────────────────────────────────────── */
@@ -349,4 +331,101 @@
     border-left: 1px solid rgba(255,255,255,0.1);
     padding-left: 8px;
     margin-left: 2px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .lobbyCard {
+        padding: 2rem 2rem;
+        max-width: 480px;
+    }
+
+    .chatRoom {
+        width: 280px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    /* Lobby */
+    .lobbyContainer {
+        padding: 1rem;
+        justify-content: flex-start;
+        padding-top: 2rem;
+    }
+
+    .lobbyCard {
+        padding: 1.4rem 1.2rem;
+        border-radius: 18px;
+        max-width: 100%;
+    }
+
+    .lobbyHeading {
+        font-size: 1.25rem;
+    }
+
+    /* Chat panel becomes bottom sheet on mobile */
+    .chatRoom {
+        top: auto;
+        right: 0;
+        left: 0;
+        bottom: 82px;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        height: 50vh;
+    }
+
+    /* Controls bar tighter */
+    .buttonContainers {
+        gap: 7px;
+        padding: 0 0.8rem;
+    }
+
+    .controlBtn {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        font-size: 1.2rem;
+    }
+
+    .controlBtn.danger {
+        width: 56px;
+        height: 46px;
+    }
+
+    /* Room info badge compact */
+    .roomInfoBadge {
+        top: 8px;
+        left: 8px;
+        padding: 5px 10px;
+    }
+
+    .roomInfoBadge .roomCode {
+        display: none;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .controlBtn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .controlBtn.danger {
+        width: 50px;
+        height: 40px;
+    }
+
+    .buttonContainers {
+        gap: 5px;
+    }
+
+    .meetUserVideo {
+        width: 80px;
+        bottom: 84px;
+        right: 8px;
+    }
 }

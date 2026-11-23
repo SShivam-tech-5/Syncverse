@@ -202,14 +202,15 @@ function HomeComponent() {
                         boxShadow:'0 0 80px rgba(124,58,237,0.25),inset 0 0 40px rgba(124,58,237,0.05)',
                         backdropFilter:'blur(20px)', position:'relative', zIndex:2,
                     }}>
-                        <div style={{
-                            width:70, height:70, borderRadius:20,
-                            background:'linear-gradient(135deg,#7C3AED,#3B82F6)',
-                            display:'flex', alignItems:'center', justifyContent:'center',
-                            boxShadow:'0 8px 30px rgba(124,58,237,0.6)',
-                        }}>
-                            <VideocamIcon style={{ color:'white', fontSize:36 }} />
-                        </div>
+                        <img
+                            src="/logo.png"
+                            alt="SyncVerse"
+                            style={{
+                                width: 80, height: 80, borderRadius: 20,
+                                objectFit: 'cover',
+                                boxShadow: '0 8px 30px rgba(124,58,237,0.6)',
+                            }}
+                        />
                         <div style={{ textAlign:'center' }}>
                             <p style={{ fontWeight:800, fontSize:'1.1rem', margin:0 }}>SyncVerse</p>
                             <p style={{ color:'#8B8BA8', fontSize:'0.78rem', margin:'4px 0 0' }}>HD · Secure · Instant</p>

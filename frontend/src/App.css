@@ -482,3 +482,93 @@
   font-size: 1rem;
   font-weight: 500;
 }
+
+/* ══════════════════════════════════════════════════
+   LANDING PAGE — RESPONSIVE OVERRIDES (App.css)
+   ══════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .landingMainContainer {
+    padding: 4rem 4vw !important;
+    gap: 3rem !important;
+  }
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 2.9rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .landingMainContainer {
+    flex-direction: column !important;
+    padding: 3rem 1.4rem 4rem !important;
+    text-align: center !important;
+    gap: 2.5rem !important;
+    min-height: auto !important;
+  }
+  .landingMainContainer > div:nth-child(1) {
+    max-width: 100% !important;
+  }
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 2.3rem !important;
+    letter-spacing: -1.2px !important;
+  }
+  .landingMainContainer > div:nth-child(1) p {
+    font-size: 1rem !important;
+    margin-bottom: 1.8rem !important;
+  }
+  .landingBadge { justify-content: center; }
+  .landingCTA   { justify-content: center; }
+  .landingStats { justify-content: center; gap: 2rem !important; }
+  .landingMainContainer > div:nth-child(1) div[role='button'] {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .landingMainContainer {
+    padding: 2.5rem 1rem 3rem !important;
+  }
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 1.95rem !important;
+    letter-spacing: -0.8px !important;
+  }
+  .statItem strong { font-size: 1.5rem !important; }
+  .statItem span   { font-size: 0.72rem !important; }
+  .landingStats    { gap: 1.5rem !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   HOME PAGE — RESPONSIVE OVERRIDES (App.css)
+   ══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .meetContainer {
+    flex-direction: column !important;
+    padding: 2rem 1.4rem !important;
+    gap: 2rem !important;
+    min-height: auto !important;
+    text-align: center !important;
+  }
+  .leftPanel { max-width: 100% !important; align-items: center !important; }
+  .leftPanel h2 { font-size: 2rem !important; text-align: center !important; }
+  .rightPanel { display: none !important; }
+  .joinBox { flex-wrap: wrap !important; }
+  .joinBox input  { min-width: 0 !important; flex: 1 1 100% !important; }
+  .joinBox button { width: 100% !important; justify-content: center !important; }
+}
+
+/* ══════════════════════════════════════════════════
+   HISTORY PAGE — RESPONSIVE OVERRIDES (App.css)
+   ══════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .historyHeader { padding: 1.2rem 1.4rem !important; }
+  .historyContent { padding: 1.5rem 1.2rem !important; }
+  .historyGrid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 480px) {
+  .historyHeader { padding: 1rem !important; }
+  .historyContent { padding: 1rem !important; }
+}
