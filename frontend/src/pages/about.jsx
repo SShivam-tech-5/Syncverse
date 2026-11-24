@@ -221,8 +221,36 @@ export default function About() {
                     </p>
                 </div>
 
-                {/* CTA */}
-                <div style={{ marginTop: '2rem', display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                {/* Contact */}
+                <div style={{
+                    marginTop: '2rem',
+                    display: 'inline-flex', alignItems: 'center', gap: 10,
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: 12,
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                }}>
+                    <span style={{ fontSize: '1.1rem' }}>📬</span>
+                    <span style={{ color: '#8B8BA8', fontSize: '0.85rem', fontWeight: 500 }}>Get in touch:</span>
+                    <a
+                        href="mailto:veramshivam620@gmail.com"
+                        style={{
+                            color: '#A78BFA',
+                            fontWeight: 700,
+                            fontSize: '0.9rem',
+                            textDecoration: 'none',
+                            fontFamily: 'Inter, sans-serif',
+                            transition: 'color 0.2s',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#60A5FA'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#A78BFA'}
+                    >
+                        veramshivam620@gmail.com
+                    </a>
+                </div>
+
+                {/* CTA buttons */}
+                <div style={{ marginTop: '1.5rem', display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                     <button
                         onClick={() => navigate('/')}
                         style={{
