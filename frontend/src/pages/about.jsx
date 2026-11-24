@@ -174,6 +174,24 @@ export default function About() {
                     I enjoy exploring technology, building digital experiences, solving problems,
                     and learning something new every day.
                 </p>
+
+                {/* Email — simple text line */}
+                <p style={{ marginTop: '1.2rem', fontSize: '0.9rem', color: '#555570' }}>
+                    📬 Reach me at{' '}
+                    <a
+                        href="mailto:veramshivam620@gmail.com"
+                        style={{
+                            color: '#A78BFA',
+                            fontWeight: 600,
+                            textDecoration: 'none',
+                            fontFamily: 'Inter, sans-serif',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
+                        onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
+                    >
+                        veramshivam620@gmail.com
+                    </a>
+                </p>
             </section>
 
             {/* ══ SECTION CARDS ══ */}
@@ -219,72 +237,6 @@ export default function About() {
                     <p style={{ color: '#444460', fontSize: '0.82rem', margin: 0, fontWeight: 600 }}>
                         — Shivam Verma
                     </p>
-                </div>
-
-                {/* ── Contact card ── */}
-                <div style={{
-                    marginTop: '2rem',
-                    padding: '1.4rem 2rem',
-                    borderRadius: 16,
-                    background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.07))',
-                    border: '1px solid rgba(124,58,237,0.25)',
-                    display: 'inline-flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 10,
-                    minWidth: 300,
-                }}>
-                    <p style={{
-                        margin: 0,
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        color: '#6B6B88',
-                        letterSpacing: '1.5px',
-                        textTransform: 'uppercase',
-                    }}>
-                        📬 &nbsp; Contact Me
-                    </p>
-
-                    <a
-                        href="mailto:veramshivam620@gmail.com"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 10,
-                            padding: '0.65rem 1.4rem',
-                            borderRadius: 10,
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            color: '#F0F0FF',
-                            fontWeight: 600,
-                            fontSize: '0.92rem',
-                            fontFamily: 'Inter, sans-serif',
-                            textDecoration: 'none',
-                            transition: 'all 0.2s ease',
-                            letterSpacing: '0.2px',
-                        }}
-                        onMouseEnter={e => {
-                            e.currentTarget.style.background = 'rgba(124,58,237,0.15)';
-                            e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)';
-                            e.currentTarget.style.color = '#A78BFA';
-                            e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 8px 24px rgba(124,58,237,0.2)';
-                        }}
-                        onMouseLeave={e => {
-                            e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                            e.currentTarget.style.color = '#F0F0FF';
-                            e.currentTarget.style.transform = 'none';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}
-                    >
-                        {/* Gmail icon */}
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        veramshivam620@gmail.com
-                    </a>
                 </div>
 
                 {/* ── CTA buttons ── */}
