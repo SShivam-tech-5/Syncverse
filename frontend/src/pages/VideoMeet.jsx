@@ -622,21 +622,51 @@ export default function VideoMeetComponent() {
                                 border: '1px dashed rgba(255,255,255,0.08)',
                                 width: '100%', maxWidth: 420,
                             }}>
+                                {/* Pulsing ring */}
                                 <div style={{
                                     width: 64, height: 64, borderRadius: '50%',
                                     background: 'rgba(124,58,237,0.1)',
-                                    border: '1px solid rgba(124,58,237,0.2)',
+                                    border: '1px solid rgba(124,58,237,0.25)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    animation: 'waitPulse 2s ease-in-out infinite',
                                 }}>
-                                    <PersonIcon style={{ fontSize: 34, color: '#333355' }} />
+                                    <PersonIcon style={{ fontSize: 32, color: '#555570' }} />
                                 </div>
+
                                 <div style={{ textAlign: 'center' }}>
-                                    <p style={{ fontFamily: 'Inter', fontSize: '1rem', color: '#555570', fontWeight: 600, marginBottom: 6 }}>
+                                    <p style={{
+                                        fontFamily: 'Inter', fontSize: '1rem',
+                                        color: '#8B8BA8', fontWeight: 700,
+                                        margin: '0 0 6px',
+                                    }}>
                                         You're the only one here
                                     </p>
-                                    <p style={{ fontFamily: 'Inter', fontSize: '0.82rem', color: '#333350' }}>
-                                        Share the code <span style={{ color: '#7C3AED', fontWeight: 700, fontFamily: 'monospace' }}>{meetingCode}</span> to invite others
+                                    <p style={{
+                                        fontFamily: 'Inter', fontSize: '0.82rem',
+                                        color: '#444460', margin: '0 0 12px', lineHeight: 1.6,
+                                    }}>
+                                        This room is fresh — no one else has joined yet.
+                                        <br />Share the code to invite others:
                                     </p>
+                                    {/* Copyable meeting code */}
+                                    <div
+                                        onClick={() => navigator.clipboard?.writeText(meetingCode)}
+                                        title="Click to copy"
+                                        style={{
+                                            display: 'inline-flex', alignItems: 'center', gap: 8,
+                                            background: 'rgba(124,58,237,0.12)',
+                                            border: '1px solid rgba(124,58,237,0.3)',
+                                            borderRadius: 8, padding: '6px 14px',
+                                            cursor: 'pointer',
+                                        }}>
+                                        <span style={{
+                                            fontFamily: 'monospace', fontSize: '1rem',
+                                            color: '#A78BFA', fontWeight: 700, letterSpacing: '1px',
+                                        }}>
+                                            {meetingCode}
+                                        </span>
+                                        <span style={{ fontSize: '0.7rem', color: '#555570' }}>📋 copy</span>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -763,3 +793,13 @@ export default function VideoMeetComponent() {
         </ThemeProvider>
     );
 }
+
+/* ── inject waitPulse animation globally (only once) ── */
+const styleTag = document.createElement('style');
+styleTag.textContent = `
+    @keyframes waitPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.3); }
+        50%       { box-shadow: 0 0 0 12px rgba(124,58,237,0); }
+    }
+`;
+document.head.appendChild(styleTag);
