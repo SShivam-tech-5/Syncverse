@@ -56,8 +56,11 @@ export default function Navbar({ showActions = false }) {
                 {/* ── Center links (landing only, hidden on mobile via CSS) ── */}
                 {!showActions && (
                     <nav className="navCenterLinks" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        {['Features', 'Pricing', 'About'].map((label) => (
-                            <button key={label} style={{
+                        {[
+                            { label: 'Features',  path: null },
+                            { label: 'About',     path: '/about' },
+                        ].map(({ label, path }) => (
+                            <button key={label} onClick={() => path && navigate(path)} style={{
                                 background: 'none', border: 'none', cursor: 'pointer',
                                 color: '#8B8BA8', fontSize: '0.875rem', fontWeight: 500,
                                 fontFamily: 'Inter, sans-serif', padding: '0.45rem 1rem',
@@ -175,8 +178,11 @@ export default function Navbar({ showActions = false }) {
                         </>
                     ) : (
                         <>
-                            {['Features', 'Pricing', 'About'].map(label => (
-                                <MobileMenuBtn key={label} label={label} onClick={closeMenu} />
+                            {[
+                                { label: 'Features', path: null },
+                                { label: 'About',    path: '/about' },
+                            ].map(({ label, path }) => (
+                                <MobileMenuBtn key={label} label={label} onClick={() => { if (path) navigate(path); closeMenu(); }} />
                             ))}
                             <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '4px 0' }} />
                             <button
